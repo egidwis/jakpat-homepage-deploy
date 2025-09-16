@@ -15,6 +15,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            /* Enhanced Blue Color Palette */
+            --blue-primary: #1976D2;
+            --blue-light: #42A5F5;
+            --blue-lighter: #64B5F6;
+            --blue-lightest: #90CAF9;
+            --blue-dark: #1565C0;
+            --blue-darker: #0D47A1;
+            --blue-vibrant: #2196F3;
+            --blue-electric: #03A9F4;
+            --blue-sky: #87CEEB;
+            --blue-muted: #546E7A;
+            
+            /* Accent Colors */
+            --orange-warm: #FF6B35;
+            --yellow-bright: #FFD54F;
+            --green-fresh: #4CAF50;
+            --purple-creative: #9C27B0;
+            --coral-friendly: #FF7043;
+            --mint-soft: #A7FFEB;
+            --peach-gentle: #FFCC80;
+            --lavender-light: #E1BEE7;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, var(--blue-primary) 0%, var(--blue-light) 100%);
+            --gradient-ocean: linear-gradient(135deg, var(--blue-primary) 0%, var(--blue-electric) 50%, var(--blue-lighter) 100%);
+            --gradient-sky: linear-gradient(135deg, var(--blue-sky) 0%, var(--blue-primary) 100%);
+            --gradient-academic: linear-gradient(135deg, var(--blue-primary) 0%, var(--purple-creative) 100%);
+            --gradient-energy: linear-gradient(135deg, var(--blue-primary) 0%, var(--orange-warm) 100%);
+            --gradient-hero: linear-gradient(135deg, rgba(25, 118, 210, 0.05) 0%, rgba(66, 165, 245, 0.08) 50%, rgba(255, 255, 255, 1) 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -30,12 +62,47 @@
         
         /* Hero Section */
         .hero {
-            background: #ffffff;
+            background: var(--gradient-hero);
             min-height: 100vh;
             display: flex;
             align-items: center;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, 
+                rgba(25, 118, 210, 0.1) 0%, 
+                rgba(66, 165, 245, 0.05) 50%, 
+                transparent 100%);
+            border-radius: 50%;
+            animation: heroFloat 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -15%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, 
+                rgba(135, 206, 235, 0.08) 0%, 
+                rgba(25, 118, 210, 0.04) 50%, 
+                transparent 100%);
+            border-radius: 50%;
+            animation: heroFloat 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes heroFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
         
         .hero-container {
@@ -63,7 +130,11 @@
         }
         
         .hero-content .highlight {
-            color: #1976D2;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
         }
         
         .hero-content p {
@@ -76,24 +147,44 @@
         }
         
         .cta-button {
-            background: #1a1a1a;
+            background: var(--gradient-primary);
             color: white;
             padding: 1.2rem 3rem;
             border: none;
-            border-radius: 60px;
+            border-radius: 50px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             display: inline-block;
             letter-spacing: 0.02em;
+            box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: left 0.5s ease;
         }
         
         .cta-button:hover {
-            background: #333;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(26, 26, 26, 0.3);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(25, 118, 210, 0.4);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
         
         .hero-visual {
@@ -113,7 +204,10 @@
         
         /* Philosophy Section */
         .philosophy {
-            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            background: linear-gradient(135deg, 
+                #E3F2FD 0%, 
+                #BBDEFB 50%, 
+                #90CAF9 100%);
             padding: 8rem 0;
             position: relative;
             overflow: hidden;
@@ -126,10 +220,11 @@
             right: -5%;
             width: 300px;
             height: 200px;
-            background: #FFD54F;
+            background: linear-gradient(45deg, var(--yellow-bright), var(--orange-warm));
             border-radius: 50px;
             transform: rotate(-15deg);
             opacity: 0.6;
+            animation: philosophyPulse 4s ease-in-out infinite;
         }
         
         .philosophy::after {
@@ -139,9 +234,20 @@
             left: 10%;
             width: 150px;
             height: 150px;
-            background: #42A5F5;
+            background: var(--gradient-primary);
             border-radius: 50%;
             opacity: 0.4;
+            animation: philosophyFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes philosophyPulse {
+            0%, 100% { transform: rotate(-15deg) scale(1); }
+            50% { transform: rotate(-10deg) scale(1.05); }
+        }
+
+        @keyframes philosophyFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
         }
         
         .philosophy-container {
@@ -190,8 +296,11 @@
         }
         
         .philosophy-content .highlight-text {
-            color: #1976D2;
-            font-weight: 600;
+            background: var(--gradient-energy);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
         
         /* Services Section - Process Steps */
@@ -219,93 +328,103 @@
         }
         
         .process-steps {
-            display: flex;
-            flex-direction: column;
-            gap: 4rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
             margin-bottom: 4rem;
-            max-width: 1000px;
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+            z-index: 1;
         }
         
         .process-step {
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 3rem;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-        
-        .process-step:nth-child(odd) {
-            grid-template-columns: 1fr 120px;
-            text-align: right;
-        }
-        
-        .process-step:nth-child(odd) .step-content {
-            order: 1;
-        }
-        
-        .process-step:nth-child(odd) .step-icon {
-            order: 2;
+            text-align: center;
+            padding: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 2;
         }
         
         .process-step:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
         }
         
         .step-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-ocean);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 2.5rem;
-            box-shadow: 0 10px 30px rgba(25, 118, 210, 0.3);
-            margin: 0 auto;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+            margin-bottom: 1rem;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid white;
+        }
+
+        .step-icon:hover {
+            transform: rotate(10deg) scale(1.15);
+            box-shadow: 0 12px 35px rgba(25, 118, 210, 0.4);
         }
         
         .step-number {
             position: absolute;
-            top: -10px;
-            right: -10px;
-            width: 30px;
-            height: 30px;
-            background: #FFD54F;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--yellow-bright), var(--orange-warm));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #333;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            box-shadow: 0 4px 15px rgba(255, 213, 79, 0.4);
+            box-shadow: 0 3px 12px rgba(255, 213, 79, 0.4);
+            animation: stepBounce 2s ease-in-out infinite;
+            border: 2px solid white;
         }
-        
-        .step-icon {
-            position: relative;
+
+        @keyframes stepBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
         
         .step-content h3 {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
             color: #1a1a1a;
+            line-height: 1.3;
         }
         
         .step-content p {
             color: #666;
-            font-size: 1rem;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            line-height: 1.5;
             margin: 0;
-            max-width: 400px;
-        }
-        
-        .process-step:nth-child(odd) .step-content p {
-            margin-left: auto;
         }
         
         /* Testimonials Section */
@@ -339,6 +458,32 @@
             padding: 2rem;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 3px;
+            background: var(--gradient-primary);
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px) rotate(1deg);
+            box-shadow: 0 20px 60px rgba(25, 118, 210, 0.2);
+        }
+
+        .testimonial-card:hover::before {
+            opacity: 1;
         }
         
         .testimonial-card .author {
@@ -356,7 +501,10 @@
         
         .testimonial-card .name {
             font-weight: 600;
-            color: #1976D2;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-size: 1.1rem;
         }
         
@@ -368,6 +516,7 @@
         /* Comparison Section */
         .comparison {
             padding: 6rem 0;
+            padding-top: 7rem;
             background: #f8f9fa;
         }
         
@@ -379,7 +528,35 @@
         
         .comparison-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+        
+        .comparison-header::before {
+            content: '🎓';
+            font-size: 3rem;
+            opacity: 0.1;
+            position: absolute;
+            top: -20px;
+            left: 20%;
+            z-index: 1;
+            animation: academicFloat 6s ease-in-out infinite;
+        }
+        
+        .comparison-header::after {
+            content: '📊';
+            font-size: 2.5rem;
+            opacity: 0.1;
+            position: absolute;
+            top: 10px;
+            right: 25%;
+            z-index: 1;
+            animation: academicFloat 8s ease-in-out infinite reverse;
+        }
+        
+        @keyframes academicFloat {
+            0%, 100% { transform: translateY(0px) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
         }
         
         .comparison-header h2 {
@@ -387,27 +564,44 @@
             font-weight: 700;
             margin-bottom: 1rem;
             color: #1a1a1a;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .comparison-header h2 .highlight-academic {
+            background: linear-gradient(135deg, var(--blue-primary) 0%, var(--purple-creative) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .comparison-table {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
+            max-width: 900px;
+            margin: 2rem auto 0;
         }
         
         .comparison-card {
             background: white;
             border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: 1.7rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(25, 118, 210, 0.06);
+            overflow: visible;
+        }
+        
+        .comparison-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(25, 118, 210, 0.15);
+            border-color: rgba(25, 118, 210, 0.2);
         }
         
         .comparison-card.highlighted {
-            background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+            background: var(--gradient-ocean);
             color: white;
             transform: scale(1.05);
             box-shadow: 0 20px 60px rgba(25, 118, 210, 0.3);
@@ -416,22 +610,31 @@
         .comparison-card.highlighted::before {
             content: 'RECOMMENDED';
             position: absolute;
-            top: -15px;
+            top: -10px;
             left: 50%;
             transform: translateX(-50%);
-            background: #FFD54F;
+            background: linear-gradient(135deg, var(--yellow-bright), var(--orange-warm));
             color: #333;
-            padding: 0.5rem 2rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 0.4rem 1.2rem;
+            border-radius: 14px;
+            font-size: 0.7rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            animation: recommendedGlow 2s ease-in-out infinite;
+            white-space: nowrap;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(255, 213, 79, 0.4);
+        }
+
+        @keyframes recommendedGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 213, 79, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 213, 79, 0.6); }
         }
         
         .card-header {
             text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
             border-bottom: 1px solid rgba(0,0,0,0.1);
         }
         
@@ -440,14 +643,14 @@
         }
         
         .card-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
         }
         
         .card-subtitle {
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 500;
             opacity: 0.8;
         }
         
@@ -459,13 +662,29 @@
         .feature-item {
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            gap: 0.8rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 0 -0.8rem;
+            padding-left: 0.8rem;
+            padding-right: 0.8rem;
+        }
+        
+        .feature-item:hover {
+            background: rgba(25, 118, 210, 0.02);
+            border-bottom-color: rgba(25, 118, 210, 0.1);
+            transform: translateX(5px);
         }
         
         .comparison-card.highlighted .feature-item {
             border-bottom-color: rgba(255,255,255,0.1);
+        }
+        
+        .comparison-card.highlighted .feature-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-bottom-color: rgba(255, 255, 255, 0.2);
         }
         
         .feature-item:last-child {
@@ -473,32 +692,131 @@
         }
         
         .feature-icon {
-            width: 24px;
-            height: 24px;
-            background: #E8F5E8;
-            border-radius: 50%;
+            font-size: 1.2rem;
+            min-width: 28px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
-            color: #2E7D32;
+            background: rgba(25, 118, 210, 0.08);
+            border-radius: 6px;
             flex-shrink: 0;
-        }
-        
-        .comparison-card.highlighted .feature-icon {
-            background: rgba(255,255,255,0.2);
-            color: white;
+            margin-right: 0.3rem;
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols", sans-serif;
+            line-height: 1;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .feature-text {
-            font-size: 1rem;
-            line-height: 1.5;
             flex: 1;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
+        
+        .comparison-card.highlighted .feature-text {
+            color: white;
+            font-weight: 400;
+        }
+        
+        /* Enhanced feature styling with hierarchy */
+        .feature-text strong {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            display: inline;
+            font-weight: 600;
+        }
+        
+        /* Target audience section */
+        .target-audience {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            background: rgba(25, 118, 210, 0.02);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-left: -0.8rem;
+            margin-right: -0.8rem;
+        }
+        
+        .comparison-card.highlighted .target-audience {
+            border-top-color: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .target-audience p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--blue-primary);
+        }
+        
+        .comparison-card.highlighted .target-audience p {
+            color: white;
+        }
+        
+        /* Text link CTA styling */
+        .text-link-container {
+            margin-top: 1.2rem;
+            text-align: center;
+        }
+        
+        .text-link-cta {
+            color: var(--blue-light);
+            text-decoration: underline;
+            text-decoration-color: rgba(25, 118, 210, 0.3);
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .text-link-cta:hover {
+            color: var(--blue-primary);
+            text-decoration-color: var(--blue-primary);
+            transform: translateX(3px);
+        }
+        
+        /* Feature category styling */
+        .pricing-feature .feature-icon {
+            background: rgba(255, 193, 7, 0.12);
+            color: #F57C00;
+        }
+        
+        .targeting-feature .feature-icon {
+            background: rgba(76, 175, 80, 0.12);
+            color: #388E3C;
+        }
+        
+        .distribution-feature .feature-icon {
+            background: rgba(156, 39, 176, 0.12);
+            color: #7B1FA2;
+        }
+        
+        .capacity-feature .feature-icon {
+            background: rgba(33, 150, 243, 0.12);
+            color: #1976D2;
+        }
+        
+        .tools-feature .feature-icon {
+            background: rgba(255, 87, 34, 0.12);
+            color: #D84315;
+        }
+        
+        .support-feature .feature-icon {
+            background: rgba(96, 125, 139, 0.12);
+            color: #455A64;
+        }
+        
+        
         
         .cta-button-comparison {
             width: 100%;
-            background: #1976D2;
+            background: var(--gradient-primary);
             color: white;
             padding: 1rem 2rem;
             border: none;
@@ -506,29 +824,69 @@
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             display: inline-block;
             text-align: center;
             margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button-comparison::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: left 0.5s ease;
         }
         
         .comparison-card.highlighted .cta-button-comparison {
             background: white;
-            color: #1976D2;
+            color: var(--blue-primary);
         }
         
         .cta-button-comparison:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.02);
             box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+        }
+
+        .cta-button-comparison:hover::before {
+            left: 100%;
         }
         
         /* CTA Section */
         .cta-section {
-            background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+            background: var(--gradient-ocean);
             padding: 4rem 0;
             text-align: center;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                transparent 70%);
+            animation: ctaFloat 10s linear infinite;
+        }
+
+        @keyframes ctaFloat {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .cta-container {
@@ -561,6 +919,8 @@
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            position: relative;
+            z-index: 10;
         }
         
         .cta-button-white:hover {
@@ -571,7 +931,7 @@
         
         /* Footer */
         .footer {
-            background: #1976D2;
+            background: var(--gradient-primary);
             color: white;
             padding: 3rem 0;
             margin-top: 0;
@@ -633,8 +993,19 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #1976D2;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-image {
+            height: 2rem;
+            width: auto;
         }
         
         .nav-links {
@@ -651,7 +1022,10 @@
         }
         
         .nav-links a:hover {
-            color: #1976D2;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         /* Responsive - Tablet */
@@ -763,43 +1137,41 @@
             }
             
             .process-steps {
-                gap: 2.5rem;
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 1rem 0;
+            }
+
+            .process-steps::before {
+                display: none;
             }
             
             .process-step {
-                grid-template-columns: 1fr;
-                text-align: center;
+                display: grid;
+                grid-template-columns: 80px 1fr;
+                gap: 1.5rem;
+                align-items: center;
+                text-align: left;
                 padding: 1.5rem;
-            }
-            
-            .process-step:nth-child(odd) {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            
-            .process-step:nth-child(odd) .step-content {
-                order: 2;
-            }
-            
-            .process-step:nth-child(odd) .step-icon {
-                order: 1;
+                background: rgba(255, 255, 255, 0.7);
+                border-radius: 16px;
+                backdrop-filter: blur(10px);
             }
             
             .step-icon {
-                width: 70px;
-                height: 70px;
-                font-size: 2rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                margin-bottom: 0;
             }
             
             .step-content h3 {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
+                margin-bottom: 0.3rem;
             }
             
-            .step-content p,
-            .process-step:nth-child(odd) .step-content p {
-                max-width: 100%;
-                margin-left: auto;
-                margin-right: auto;
+            .step-content p {
+                font-size: 0.85rem;
             }
             
             /* Testimonials */
@@ -833,6 +1205,7 @@
                 font-size: 2rem;
             }
             
+            
             .comparison-table {
                 grid-template-columns: 1fr;
                 gap: 2rem;
@@ -841,6 +1214,7 @@
             .comparison-card.highlighted {
                 transform: scale(1);
             }
+            
             
             /* CTA Section */
             .cta-section {
@@ -923,28 +1297,33 @@
             }
             
             .process-step {
+                grid-template-columns: 70px 1fr;
+                gap: 1rem;
                 padding: 1rem;
+                margin: 0 -0.5rem;
             }
             
             .step-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 1.8rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
             }
             
             .step-number {
-                width: 25px;
-                height: 25px;
-                font-size: 0.85rem;
+                width: 20px;
+                height: 20px;
+                font-size: 0.7rem;
+                top: -6px;
+                right: -6px;
             }
             
             .step-content h3 {
-                font-size: 1.1rem;
-                margin-bottom: 0.5rem;
+                font-size: 1rem;
+                margin-bottom: 0.3rem;
             }
             
             .step-content p {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
             }
             
             /* Testimonials */
@@ -974,8 +1353,10 @@
                 line-height: 1.3;
             }
             
+            
             .comparison-card {
                 padding: 1.5rem;
+                margin: 0 -0.5rem;
             }
             
             .card-title {
@@ -986,13 +1367,37 @@
                 font-size: 1rem;
             }
             
+            .feature-item {
+                padding: 1rem 0;
+                margin: 0 -0.5rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                gap: 1rem;
+            }
+            
+            .feature-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 1.2rem;
+            }
+            
             .feature-text {
+                font-size: 0.9rem;
+            }
+            
+            .feature-text strong {
                 font-size: 0.9rem;
             }
             
             .cta-button-comparison {
                 padding: 0.9rem 1.5rem;
                 font-size: 1rem;
+            }
+            
+            /* Academic decorative elements on mobile */
+            .comparison-header::before,
+            .comparison-header::after {
+                display: none;
             }
             
             /* CTA Section */
@@ -1030,12 +1435,15 @@
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <a href="/" class="logo">🎓 Jakpat for Universities</a>
+            <a href="/" class="logo">
+                <img src="jfu-logo.png" alt="Jakpat for Universities Logo" class="logo-image">
+                Jakpat for Universities
+            </a>
             <ul class="nav-links">
                 <li><a href="#beranda">Beranda</a></li>
                 <li><a href="#layanan">Layanan</a></li>
                 <li><a href="#testimoni">Testimoni</a></li>
-                <li><a href="https://submit.jakpatforuniv.com/">Mulai Survey</a></li>
+                <li><a href="#perbandingan">Perbandingan</a></li>
             </ul>
         </div>
     </nav>
@@ -1044,12 +1452,12 @@
     <section class="hero" id="beranda">
         <div class="hero-container">
             <div class="hero-content">
-                <h1>Jakpat for Universities</h1>
+                <h1><span class="highlight">Jakpat for Universities</span></h1>
                 <p>Jakpat hadir untuk mendukung dunia pendidikan: Membantu mahasiswa mendapatkan data survei cepat dari responden terpercaya—agar riset makin kuat, wawasan makin luas, dan dampak positif yang berkelanjutan.</p>
-                <a href="https://submit.jakpatforuniv.com/" class="cta-button">Mulai Survey</a>
+                <a href="https://submit.jakpatforuniv.com/" class="cta-button">🚀 Iklankan Survey</a>
             </div>
             <div class="hero-visual">
-                <img src="background-heropage.jpg" alt="Happy students celebrating" class="hero-image">
+                <img src="background-heropage-removebg-preview.png" alt="Happy students celebrating" class="hero-image">
             </div>
         </div>
     </section>
@@ -1063,7 +1471,6 @@
             <div class="philosophy-content">
                 <h2><span class="highlight-text">Bayar mulai 100 ribu,<br>jawaban langsung terkumpul!</span></h2>
                 <p>Kok bisa? Soalnya Jakpat punya <strong>1.7 juta responden</strong> di seluruh Indonesia yang siap jawab surveimu.</p>
-                <a href="https://submit.jakpatforuniv.com/" class="cta-button">Iklankan Sekarang</a>
             </div>
         </div>
     </section>
@@ -1079,62 +1486,47 @@
             <div class="process-steps">
                 <div class="process-step">
                     <div class="step-icon">
-                        ⏱️
+                        📋
                         <div class="step-number">01</div>
                     </div>
                     <div class="step-content">
-                        <h3>Tentukan durasi iklan & jumlah pertanyaan</h3>
-                        <p>Sesuaikan durasi penayangan dan jumlah pertanyaan surveimu.</p>
+                        <h3>Isi order form</h3>
+                        <p>Lengkapi detail surveymu di form pemesanan.</p>
                     </div>
                 </div>
-                
-                <div class="process-step">
-                    <div class="step-icon">
-                        📋
-                        <div class="step-number">02</div>
-                    </div>
-                    <div class="step-content">
-                        <h3>Share link surveimu ke Jakpat</h3>
-                        <p>Klik "iklankan survei" lalu isi form dan submit surveimu.</p>
-                    </div>
-                </div>
-                
+
                 <div class="process-step">
                     <div class="step-icon">
                         ✅
-                        <div class="step-number">03</div>
+                        <div class="step-number">02</div>
                     </div>
                     <div class="step-content">
-                        <h3>Admin akan cek surveimu</h3>
-                        <p>Tim Jakpat akan memastikan data di form sudah sesuai dengan isi surveimu.</p>
+                        <h3>Admin cek & beri feedback</h3>
+                        <p>Tim Jakpat akan memverifikasi dan memberikan masukan jika perlu.</p>
                     </div>
                 </div>
-                
+
                 <div class="process-step">
                     <div class="step-icon">
                         📢
-                        <div class="step-number">04</div>
+                        <div class="step-number">03</div>
                     </div>
                     <div class="step-content">
-                        <h3>Surveimu diiklankan oleh Jakpat</h3>
-                        <p>Setelah pembayaran, iklan surveimu akan dipublikasikan ke responden Jakpat sesuai jadwal.</p>
+                        <h3>Surveimu diiklankan</h3>
+                        <p>Kami publikasikan surveymu di website Jakpat.</p>
                     </div>
                 </div>
-                
+
                 <div class="process-step">
                     <div class="step-icon">
                         🎉
-                        <div class="step-number">05</div>
+                        <div class="step-number">04</div>
                     </div>
                     <div class="step-content">
-                        <h3>Tunggu sampai surveimu penuh!</h3>
-                        <p>Tinggal santai dan pantau hasilnya 🎉</p>
+                        <h3>Tunggu hasilnya penuh 🎉</h3>
+                        <p>Duduk santai dan pantau responden masuk.</p>
                     </div>
                 </div>
-            </div>
-            
-            <div style="text-align: center;">
-                <a href="https://submit.jakpatforuniv.com/" class="cta-button">Coba Sekarang</a>
             </div>
         </div>
     </section>
@@ -1178,10 +1570,11 @@
     </section>
 
     <!-- Comparison Section -->
-    <section class="comparison">
+    <section class="comparison" id="perbandingan">
         <div class="comparison-container">
             <div class="comparison-header">
-                <h2>Perbandingan dan Perbedaan Paket</h2>
+                <h2>Perbandingan dan <span class="highlight-academic">Perbedaan Paket</span></h2>
+                <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 0 auto;">Pilih layanan yang sesuai dengan kebutuhan penelitian dan budget akademikmu</p>
             </div>
             
             <div class="comparison-table">
@@ -1192,35 +1585,50 @@
                     </div>
                     
                     <ul class="feature-list">
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Harga berdasarkan pertanyaan, jumlah dan kriteria target responden</div>
+                        <li class="feature-item pricing-feature">
+                            <div class="feature-icon">💰</div>
+                            <div class="feature-text">
+                                <strong>Harga fleksibel</strong> sesuai jumlah pertanyaan & target responden
+                            </div>
                         </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Bisa menentukan sendiri profil & kriteria responden yang diinginkan</div>
+                        <li class="feature-item targeting-feature">
+                            <div class="feature-icon">🎯</div>
+                            <div class="feature-text">
+                                Bisa menentukan <strong>profil & kriteria responden</strong> sendiri
+                            </div>
                         </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Survei dikirim langsung ke aplikasi Jakpat yang telah diunduh 1,7 juta responden di seluruh Indonesia</div>
+                        <li class="feature-item distribution-feature">
+                            <div class="feature-icon">📱</div>
+                            <div class="feature-text">
+                                Survei dikirim langsung ke <strong>1,7 juta+ pengguna</strong> aplikasi Jakpat
+                            </div>
                         </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Up to 1.000 responden yang sesuai kriteria dalam sehari</div>
+                        <li class="feature-item capacity-feature">
+                            <div class="feature-icon">📊</div>
+                            <div class="feature-text">
+                                Mendapatkan <strong>1.000+ responden</strong> sesuai kriteria per hari
+                            </div>
                         </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Dashboard Monitoring Survey</div>
+                        <li class="feature-item tools-feature">
+                            <div class="feature-icon">📈</div>
+                            <div class="feature-text">
+                                Dashboard monitoring & <strong>analytics tools</strong> lengkap
+                            </div>
                         </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Cross Tabulation & Analytics Tools by Jakpat</div>
-                        </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Comprehensive Support from Our Research Team</div>
+                        <li class="feature-item support-feature">
+                            <div class="feature-icon">🤝</div>
+                            <div class="feature-text">
+                                Didukung penuh oleh <strong>tim riset profesional</strong>
+                            </div>
                         </li>
                     </ul>
+                    <div class="target-audience">
+                        <p><strong>👉 Cocok untuk perusahaan & brand</strong> yang butuh riset mendalam, data spesifik, dan analisis profesional.</p>
+                    </div>
+                    
+                    <div class="text-link-container">
+                        <a href="https://business.jakpat.net" class="text-link-cta">Pelajari lebih lanjut →</a>
+                    </div>
                 </div>
                 
                 <div class="comparison-card highlighted">
@@ -1230,37 +1638,48 @@
                     </div>
                     
                     <ul class="feature-list">
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Harga berdasarkan jumlah hari (penayangan iklan) dan jumlah pertanyaan yang relatif lebih terjangkau</div>
+                        <li class="feature-item pricing-feature">
+                            <div class="feature-icon">💰</div>
+                            <div class="feature-text">
+                                <strong>Harga hemat</strong>, dihitung per hari penayangan & jumlah pertanyaan
+                            </div>
                         </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Responden dengan profil random yang mengisi survei</div>
+                        <li class="feature-item targeting-feature">
+                            <div class="feature-icon">🌍</div>
+                            <div class="feature-text">
+                                <strong>Responden random</strong> yang representatif untuk data umum
+                            </div>
                         </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Survei akan diiklankan di halaman jakpat.net/info yang diakses oleh up to 5.000 orang dalam sehari.</div>
+                        <li class="feature-item distribution-feature">
+                            <div class="feature-icon">📺</div>
+                            <div class="feature-text">
+                                Survei ditampilkan pada halaman publik jakpat.net/info (<strong>5.000 visitor/hari</strong>)
+                            </div>
                         </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Up to 250+ responden random dalam sehari</div>
+                        <li class="feature-item capacity-feature">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-text">
+                                Mendapatkan <strong>250+ responden per hari</strong>, cepat & praktis
+                            </div>
                         </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Dashboard Monitoring Survey</div>
+                        <li class="feature-item tools-feature">
+                            <div class="feature-icon">✅</div>
+                            <div class="feature-text">
+                                <strong>Tanpa ribet</strong>: data langsung terkumpul
+                            </div>
                         </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Cross Tabulation & Analytics Tools by Jakpat</div>
-                        </li>
-                        <li class="feature-item">
-                            <div class="feature-icon">✓</div>
-                            <div class="feature-text">Comprehensive Support from Our Research Team</div>
+                        <li class="feature-item support-feature">
+                            <div class="feature-icon">🎓</div>
+                            <div class="feature-text">
+                                Solusi riset <strong>sederhana & terjangkau</strong> untuk mahasiswa dan akademisi
+                            </div>
                         </li>
                     </ul>
+                    <div class="target-audience">
+                        <p><strong>👉 Cocok untuk mahasiswa & akademisi</strong> yang butuh data cepat, biaya ramah, dan proses sederhana untuk penelitian skripsi, tesis, atau studi akademik.</p>
+                    </div>
                     
-                    <a href="https://submit.jakpatforuniv.com/" class="cta-button-comparison">Iklankan Survei</a>
+                    <a href="https://submit.jakpatforuniv.com/" class="cta-button-comparison">Iklankan Survey Sekarang</a>
                 </div>
             </div>
         </div>
@@ -1271,7 +1690,7 @@
         <div class="cta-container">
             <h2>Siap mulai riset yang lebih mudah?</h2>
             <p>Bergabung dengan ribuan mahasiswa yang sudah merasakan kemudahan riset dengan Jakpat for Universities</p>
-            <a href="https://submit.jakpatforuniv.com/" class="cta-button-white">Mulai Survey!</a>
+            <a href="https://submit.jakpatforuniv.com/" class="cta-button-white">Mulai Iklankan Survey!</a>
         </div>
     </section>
 
@@ -1282,7 +1701,6 @@
                 <a href="/">Beranda</a>
                 <a href="/privacy-policy.html">Kebijakan Privasi</a>
                 <a href="/terms-conditions.html">Syarat & Ketentuan</a>
-                <a href="https://submit.jakpatforuniv.com/">Mulai Survey</a>
             </div>
             <p>&copy; 2025 Jakpat for Universities. All rights reserved.</p>
         </div>
