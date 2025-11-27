@@ -1,4 +1,46 @@
 // ========================================
+// Performance Utilities
+// ========================================
+
+// Throttle function to limit event handler execution
+function throttle(func, delay) {
+    let timeoutId;
+    let lastExecTime = 0;
+
+    return function(...args) {
+        const currentTime = Date.now();
+        const timeSinceLastExec = currentTime - lastExecTime;
+
+        if (timeSinceLastExec >= delay) {
+            lastExecTime = currentTime;
+            func.apply(this, args);
+        } else {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                lastExecTime = Date.now();
+                func.apply(this, args);
+            }, delay - timeSinceLastExec);
+        }
+    };
+}
+
+// RequestAnimationFrame-based throttle for scroll events
+function rafThrottle(func) {
+    let rafId = null;
+    let lastArgs = null;
+
+    return function(...args) {
+        lastArgs = args;
+        if (rafId === null) {
+            rafId = requestAnimationFrame(() => {
+                func.apply(this, lastArgs);
+                rafId = null;
+            });
+        }
+    };
+}
+
+// ========================================
 // Internationalization (i18n) System
 // ========================================
 
@@ -259,7 +301,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Navigation background on scroll + active section tracking
-window.addEventListener('scroll', () => {
+// OPTIMIZED: Using RAF throttle to prevent performance issues
+const handleScroll = rafThrottle(() => {
     const nav = document.querySelector('.nav');
 
     // Add scrolled class for navbar shrink effect
@@ -269,29 +312,36 @@ window.addEventListener('scroll', () => {
         nav.classList.remove('scrolled');
     }
 
-    // Track active section
+    // Track active section - Cache selectors
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
 
     let currentSection = '';
 
+    // Optimized: Only check sections that are visible
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
         if (window.scrollY >= (sectionTop - 200)) {
             currentSection = section.getAttribute('id');
         }
     });
 
+    // Batch DOM updates
     navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentSection}`) {
+        const shouldBeActive = link.getAttribute('href') === `#${currentSection}`;
+        const isActive = link.classList.contains('active');
+
+        if (shouldBeActive && !isActive) {
             link.classList.add('active');
+        } else if (!shouldBeActive && isActive) {
+            link.classList.remove('active');
         }
     });
 });
 
-// Testimonials toggle functionality
+window.addEventListener('scroll', handleScroll, { passive: true });
+
+// Testimonials toggle functionality - OPTIMIZED to avoid reflow
 function toggleTestimonials() {
     const container = document.querySelector('.testimonials-container');
     const button = document.querySelector('.show-more-btn');
@@ -304,6 +354,7 @@ function toggleTestimonials() {
     const isExpanded = container.classList.contains('testimonials-expanded');
     button.setAttribute('aria-expanded', isExpanded);
 
+    // Use visibility for better performance (avoid layout thrashing)
     if (isExpanded) {
         showText.style.display = 'none';
         hideText.style.display = 'inline';
@@ -312,3 +363,57 @@ function toggleTestimonials() {
         hideText.style.display = 'none';
     }
 }
+
+// ========================================
+// Performance Optimization: Pause Animations
+// ========================================
+
+// Pause animations when tab is not visible to save CPU/GPU
+document.addEventListener('visibilitychange', () => {
+    const animatedElements = document.querySelectorAll('.marquee-content, .hero::after, .hero-blob-1, .hero-blob-2, .cta-section::before');
+
+    if (document.hidden) {
+        // Tab is hidden - pause all animations
+        animatedElements.forEach(el => {
+            el.style.animationPlayState = 'paused';
+        });
+    } else {
+        // Tab is visible - resume animations
+        animatedElements.forEach(el => {
+            el.style.animationPlayState = 'running';
+        });
+    }
+});
+
+// Intersection Observer to pause off-screen animations
+const observerOptions = {
+    root: null,
+    rootMargin: '50px',
+    threshold: 0.1
+};
+
+const animationObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        const animations = entry.target.querySelectorAll('.marquee-content');
+
+        if (!entry.isIntersecting) {
+            // Element is off-screen - pause animations
+            animations.forEach(anim => {
+                anim.style.animationPlayState = 'paused';
+            });
+        } else {
+            // Element is visible - resume animations
+            animations.forEach(anim => {
+                anim.style.animationPlayState = 'running';
+            });
+        }
+    });
+}, observerOptions);
+
+// Observe sections with heavy animations
+document.addEventListener('DOMContentLoaded', () => {
+    const universityTrust = document.querySelector('.university-trust');
+    if (universityTrust) {
+        animationObserver.observe(universityTrust);
+    }
+});
